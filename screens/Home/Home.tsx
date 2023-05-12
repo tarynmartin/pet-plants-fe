@@ -1,28 +1,45 @@
-import { ScrollView, View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
-import Button from '../../components/Button/Button';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import List from '../../components/List/List';
 
-export default function Home({navigation, data, getData, setSelectedItem}) {
+export default function Home({navigation, data}) {
+  const [clicked, setClicked] = useState<boolean>(false);
+  const [searchPhrase, setSearchPhrase] = useState<string>('');
+  const [searchData, setSearchData] = useState([]);
+
+  useEffect(() => setSearchData(data), [])
+
+  useEffect(() => {
+    if (searchPhrase.length) {
+      getSearchResults()
+    } else {
+      setSearchData(data)
+    };
+  }, [searchPhrase, data])
+
+  const getSearchResults = () => {
+    return fetch(`http://localhost:3000/plants/search/${searchPhrase}`)
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      } else {
+        return response.json()
+      }
+    }).then(searchData => setSearchData(searchData))
+  }
+
   return (
     <View style={styles.screen}>
       <Header />
       <View style={styles.body}>
-      <ScrollView>
         <ContactMessage />
-        <Button getData={getData}/>
-        <View>
-        <FlatList data={data} keyExtractor={item => item.id} renderItem={({item}) => <Text style={styles.item} onPress={() => {
-          setSelectedItem(item)
-          navigation.navigate('Plant', item)
-          }}>{item.thing}</Text>}>
-          {/* put in plantsData; display scientificName */}
-          {/* {things.map(item => (
-            <Text style={styles.item}>{item.thing}</Text>
-          ))} */}
-        </FlatList>
-        </View>
-      </ScrollView>
+        {/* <View> */}
+          <SearchBar clicked={clicked} setClicked={setClicked} searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} />
+          <List data={searchData} navigation={navigation} />
+        {/* </View> */}
       </View>
     </View>
   );
@@ -39,19 +56,6 @@ const styles = StyleSheet.create({
   body: {
     flex: 8,
     width: '100%',
-    backgroundColor: '#14141410'
-  },
-  item: {
-    backgroundColor: 'cadetblue',
-    color: 'white',
-    textTransform: 'capitalize',
-    height: 50,
-    width: 150,
-    justifyContent: 'center',
-    marginVertical: 8,
-    marginHorizontal: 16,
-    padding: 20,
-    borderRadius: 5
   },
   title: {
     fontSize: 32,

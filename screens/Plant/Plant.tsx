@@ -1,20 +1,42 @@
-import { ScrollView, View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
 
 
-// show selected item
-export default function Plant({navigation, item, setSelectedItem}) {
+export default function Plant({navigation, route}) {
   console.log('navigation', navigation.params)
+  const [plant, setPlant] = useState();
+
+  useEffect(() => {getPlant()}, []);
+
+  const getPlant = () => {
+    return fetch(`http://localhost:3000/plants/${route.params.id}`)
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      } else {
+        return response.json()
+      }
+    }).then(plantData => {
+      setPlant(plantData[0])
+    })
+
+  }
+
   return (
     <View style={styles.screen}>
       <Header />
       <View style={styles.body}>
       <ScrollView>
         <ContactMessage />
-        <View style={styles.item}>
-          {item.thing}
+        {plant && (
+        <View>
+          <p>Name: {plant?.name || ''}</p>
+          <p>Scientific Name: {plant.scientificName}</p>
+          <p>Other Names: {plant.popularNames} </p>
         </View>
+        )}
       </ScrollView>
       </View>
     </View>
