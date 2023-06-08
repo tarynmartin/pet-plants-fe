@@ -21,7 +21,7 @@ export default function Home({navigation, data}) {
   }, [searchPhrase, data])
 
   const getSearchResults = () => {
-    return fetch(`http://localhost:3000/plants/search/${searchPhrase}`)
+    return fetch(`https://pet-plants-be.onrender.com/plants/search/${searchPhrase}`)
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText)

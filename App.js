@@ -14,7 +14,7 @@ export default function App() {
   }, [])
 
   const getPlants = () => {
-    return fetch('http://localhost:3000/plants/')
+    return fetch('https://pet-plants-be.onrender.com/plants/')
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText)

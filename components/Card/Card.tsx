@@ -6,7 +6,7 @@ const Card = ({ data, navigation }) => {
     <View style={styles.container}>
       <TouchableHighlight onPress={() => {navigation.navigate('Plant', { id: data.id, name: data.name})}}>
         <View>
-          <Image source={{uri: data.imageUrl}} style={styles.logo} />
+          <Image source={{uri: data.image_url}} style={styles.logo} />
           <Text style={styles.item}>{data.name}</Text>
         </View>
       </TouchableHighlight>

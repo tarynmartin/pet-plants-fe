@@ -11,7 +11,7 @@ export default function Plant({navigation, route}) {
   useEffect(() => {getPlant()}, []);
 
   const getPlant = () => {
-    return fetch(`http://localhost:3000/plants/${route.params.id}`)
+    return fetch(`https://pet-plants-be.onrender.com/plants/${route.params.id}`)
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText)
