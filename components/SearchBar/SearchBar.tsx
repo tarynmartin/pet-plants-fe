@@ -39,6 +39,7 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
             onPress={() => {
               Keyboard.dismiss();
               setClicked(false);
+              setSearchPhrase("")
             }}
           ></Button>
         </View>
@@ -51,7 +52,10 @@ export default SearchBar;
 // styles
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 10,
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",

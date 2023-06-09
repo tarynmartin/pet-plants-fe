@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import List from '../../components/List/List';
 
-export default function Home({navigation, data}) {
+export default function Home({navigation, data, isLoading}) {
   const [clicked, setClicked] = useState<boolean>(false);
   const [searchPhrase, setSearchPhrase] = useState<string>('');
   const [searchData, setSearchData] = useState([]);
+  const [loadingState, setLoadingState] = useState<boolean>(false);
 
-  useEffect(() => setSearchData(data), [])
+  useEffect(() => {
+    setSearchData(data)
+  }, [])
 
   useEffect(() => {
     if (searchPhrase.length) {
+      setLoadingState(true);
       getSearchResults()
     } else {
       setSearchData(data)
@@ -28,20 +32,27 @@ export default function Home({navigation, data}) {
       } else {
         return response.json()
       }
-    }).then(searchData => setSearchData(searchData))
+    }).then(searchData => {
+      setSearchData(searchData)
+      setLoadingState(false);
+    })
   }
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <Header />
       <View style={styles.body}>
         <ContactMessage />
-        {/* <View> */}
           <SearchBar clicked={clicked} setClicked={setClicked} searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} />
+          {isLoading || loadingState &&
+            <Text>Loading...</Text>
+          }
+          {(!isLoading || !loadingState) && searchPhrase.length > 0 && !searchData.length &&
+            <Text>{`There are no results for ${searchPhrase}`}</Text>
+          }
           <List data={searchData} navigation={navigation} />
-        {/* </View> */}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -56,8 +67,5 @@ const styles = StyleSheet.create({
   body: {
     flex: 8,
     width: '100%',
-  },
-  title: {
-    fontSize: 32,
   },
 })
