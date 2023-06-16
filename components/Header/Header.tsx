@@ -1,25 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text } from 'react-native';
 
 const Header = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Pet Friendly Plants</Text>
-    </View>
+      <Text style={styles.title}>Will This Plant Kill My Pet?</Text>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   title: {
     paddingTop: 42,
     paddingBottom: 42,
-    backgroundColor: 'blue',
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
-    fontSize: 32,
-    fontWeight: 'bold'
+    fontSize: 24,
+    fontWeight: 'bold',
   }
 });
 
