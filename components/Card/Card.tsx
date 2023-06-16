@@ -1,13 +1,21 @@
-import React from 'react';
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableHighlight } from 'react-native';
 import AnimalIcon from '../AnimalIcon/AnimalIcon';
 
 const Card = ({ data, navigation }) => {
+  const [ selected, setSelected ] = useState<boolean>(false)
+
+  const containerStyle = () => selected ? styles.selectedItemContainer : styles.itemContainer;
+
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={() => {navigation.navigate('Plant', { id: data.id, name: data.name})}}style={styles.highlight} >
-        <View style={styles.itemContainer}>
+      <TouchableHighlight onPress={() => {
+        navigation.navigate('Plant', { id: data.id, name: data.name})
+        }}
+        onShowUnderlay={() => setSelected(true)}
+        onHideUnderlay={() => setSelected(false)}
+        style={styles.highlight} >
+        <View style={containerStyle()}>
           <View>
             <Image source={{uri: data.image_url}} style={styles.image} />
             <Text style={styles.item}>{data.name}</Text>
@@ -40,13 +48,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: 115,
-    height: '100%'
+    height: '100%',
+  },
+  selectedItemContainer: {
+    backgroundColor: 'lightgray',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    width: 115,
+    height: '100%',
   },
   image: {
     width: 100,
     height: 100,
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
   },
   item: {
     width: 100,

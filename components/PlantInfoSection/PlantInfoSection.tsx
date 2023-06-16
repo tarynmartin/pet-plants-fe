@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   category: {
     fontWeight: '600',
     paddingRight: 5,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
   },
   scientificName: {
     textTransform: 'capitalize',

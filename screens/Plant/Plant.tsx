@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   body: {
     flex: 8,
     width: '100%',
-    backgroundColor: '#14141410'
+    backgroundColor: '#fff',
   },
 })

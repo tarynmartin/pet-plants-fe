@@ -6,20 +6,20 @@ import AnimalIcon from '../AnimalIcon/AnimalIcon';
 const PlantInfo = ({ plant }) => {
   return (
     <View style={styles.info}>
-      <Image source={{uri: plant.image_url}} style={styles.image} />
+      <Image source={{uri: plant?.image_url}} style={styles.image} />
       <View style={styles.icons}>
-        <AnimalIcon animal="cat" toxic={plant.toxic_cats} />
-        <AnimalIcon animal="dog" toxic={plant.toxic_dogs} />
+        <AnimalIcon animal="cat" toxic={plant?.toxic_cats} />
+        <AnimalIcon animal="dog" toxic={plant?.toxic_dogs} />
       </View>
-      <PlantInfoSection sectionTitle='Name' data={plant.name} scientificName={false}/>
-      <PlantInfoSection sectionTitle='Scientific Name' data={plant.scientific_name} scientificName={true} />
-      {plant.popular_names.length > 0 && 
-        <PlantInfoSection sectionTitle='Other Names' data={plant.popular_names.replaceAll(',', ', ')} scientificName={false}/>
+      <PlantInfoSection sectionTitle='Name' data={plant?.name} scientificName={false}/>
+      <PlantInfoSection sectionTitle='Scientific Name' data={plant?.scientific_name} scientificName={true} />
+      {plant?.popular_names && plant?.popular_names?.length > 0 &&
+        <PlantInfoSection sectionTitle='Other Names' data={plant.popular_names.split(',').join(', ')} scientificName={false}/>
       }
-      {plant.signs.length > 0 && 
+      {plant?.signs?.length > 0 &&
         <PlantInfoSection sectionTitle='Description' data={plant.description} scientificName={false} />
       }
-      {plant.description.length > 0 && 
+      {plant?.description?.length > 0 &&
         <PlantInfoSection sectionTitle='Signs' data={plant.signs} scientificName={false} />
       }
     </View>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     padding: 20,
-    borderRadius: 5
+    borderRadius: 5,
   },
   title: {
     fontSize: 32,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
   },
   icons: {
     display: 'flex',

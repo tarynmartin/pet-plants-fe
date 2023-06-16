@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text } from 'react-native';
 
 const Header = () => {
   return (
-    // <View style={styles.container}>
       <Text style={styles.title}>Will This Plant Kill My Pet?</Text>
   )
 }
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   }
 });
 

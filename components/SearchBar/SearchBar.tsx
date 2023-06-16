@@ -49,7 +49,6 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
 };
 export default SearchBar;
 
-// styles
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
