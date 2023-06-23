@@ -5,7 +5,7 @@ import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import List from '../../components/List/List';
 
-export default function Home({navigation, data, isLoading}) {
+export default function Home({navigation, data, isLoading, logOut}) {
   const [clicked, setClicked] = useState<boolean>(false);
   const [searchPhrase, setSearchPhrase] = useState<string>('');
   const [searchData, setSearchData] = useState([]);
@@ -40,7 +40,7 @@ export default function Home({navigation, data, isLoading}) {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <Header />
+      <Header userLogOut={logOut}/>
       <View style={styles.body}>
         <ContactMessage />
           <SearchBar clicked={clicked} setClicked={setClicked} searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} />

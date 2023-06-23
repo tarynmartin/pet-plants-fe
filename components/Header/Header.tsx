@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
 
-const Header = () => {
+const Header = ({ userLogOut }: { userLogOut?: () => void}) => {
   return (
+    <View>
       <Text style={styles.title}>Will This Plant Kill My Pet?</Text>
+      {userLogOut && <Button title='Log Out' onPress={userLogOut} />}
+    </View>
   )
 }
 
