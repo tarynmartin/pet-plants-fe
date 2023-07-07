@@ -5,7 +5,7 @@ import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import PlantInfo from '../../components/PlantInfo/PlantInfo';
 
 
-export default function Plant({navigation, route}) {
+export default function Plant({navigation, route, logOut}) {
   const [plant, setPlant] = useState();
 
   useEffect(() => {getPlant()}, []);
@@ -25,7 +25,7 @@ export default function Plant({navigation, route}) {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <Header />
+      <Header userLogOut={logOut} />
       <View style={styles.body}>
       <ScrollView>
         <ContactMessage />
