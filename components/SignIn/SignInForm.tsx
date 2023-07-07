@@ -1,18 +1,14 @@
 import React from 'react';
-import { TouchableHighlight, Button, TextInput, Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import Input from '../Input/Input';
 
-export default function SignInForm({submitLogin, userEmail, setUserEmail, password, setPassword, error, page}) {
+export default function SignInForm({ userEmail, setUserEmail, password, setPassword, error}) {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.inputLabel}>Email</Text>
-      <TextInput onChangeText={setUserEmail} value={userEmail} keyboardType='email-address' placeholder='anne@example.com'style={styles.textInput} />
-      <Text style={styles.inputLabel}>Password</Text>
-      <TextInput onChangeText={setPassword} value={password} secureTextEntry={true} style={styles.textInput} />
+      <Input label='Email' value={userEmail} setValue={setUserEmail} placeholder='anne@example.com' keyboardType='email-address' />
+      <Input label='Password' value={password} setValue={setPassword} />
       {error.length > 0 && <Text style={styles.errorMessage} >{error}</Text>}
-      <TouchableHighlight onPress={submitLogin}  accessibilityLabel={`Click here to complete ${page === 'sign-in'? 'login' : 'sign in'} process`}style={styles.loginBtn}>
-        <Button title={page === 'sign-in' ? "Log In" : 'Sign Up'} />
-      </TouchableHighlight>
     </View>
   );
 }
@@ -29,23 +25,7 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     justifyContent: 'center'
   },
-  inputLabel: {
-    fontWeight: '600',
-    paddingBottom: 16,
-    paddingTop: 16,
-    fontSize: 20,
-  },
-  textInput: {
-    backgroundColor: 'lightgray',
-    height: 40,
-    padding: 4,
-    fontSize: 20,
-  },
   errorMessage: {
     color: 'red'
   },
-  loginBtn: {
-    paddingTop: 16,
-    alignItems: 'center'
-  }
 })

@@ -40,9 +40,9 @@ export default function App() {
     })
   }
 
-  const signUpUser = (email, password) => {
+  const signUpUser = (email, password, phone, agreement) => {
     return fetchData('auth/sign-up', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-      email, password
+      email, password, phone, agreement
     })})
     .then(data => {
       if (data.message) {
@@ -79,6 +79,14 @@ export default function App() {
       setIsLoading(false)
     })
   }
+
+  // user hits password recovery - show on sign in screen
+  // goes to new page, choose phone or email to get code; enters their info; goes to OTP enter screen
+  // I call sign in with otp - the system sends a code to their email/phone
+  // input for code sent to email/phone
+  // when they enter, send code as token, email/password that was sent to them; choose endpoint based on how they originally got the code (email/phone)
+  // once authenticated, take user to password reset screen; on submission, call updateUser endpoint
+  // take user back to log in screen once password is reset
 
   return (
     <NavigationContainer>

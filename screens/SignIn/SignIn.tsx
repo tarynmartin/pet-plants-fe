@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import SignInForm from '../../components/SignIn/SignInForm';
+import Button from '../../components/Button/Button';
 
 export default function SignIn({navigation, loginUser, error}) {
   const [userEmail, setUserEmail] = useState<string>('')
@@ -14,11 +15,15 @@ export default function SignIn({navigation, loginUser, error}) {
 
   const goToSignUp = () => navigation.navigate('Sign Up')
 
+  const goToPasswordReset = () => navigation.navigate('Password Reset')
+
   return (
     <SafeAreaView style={styles.screen}>
       <Header />
-        <Button onPress={goToSignUp} title='Sign Up' accessibilityLabel='Click here to sign up for an account'/>
-        <SignInForm submitLogin={submitLogin} userEmail={userEmail} setUserEmail={setUserEmail} password={password} setPassword={setPassword} error={error} page='sign-in' />
+        <Button onPress={goToSignUp} label='Click here to sign up for an account' text='Sign Up' />
+        <SignInForm userEmail={userEmail} setUserEmail={setUserEmail} password={password} setPassword={setPassword} error={error} />
+        <Button onPress={goToPasswordReset} label='Click here to reset your password' text='Forgot your password?' />
+        <Button onPress={submitLogin} label='Click here to log in' text='Log In' />
     </SafeAreaView>
   );
 }
@@ -29,29 +34,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-  },
-  body: {
-    width: '75%',
-    paddingTop: 24,
-    justifyContent: 'center'
-  },
-  inputLabel: {
-    fontWeight: '600',
-    paddingBottom: 16,
-    paddingTop: 16,
-    fontSize: 20,
-  },
-  textInput: {
-    backgroundColor: 'lightgray',
-    height: 40,
-    padding: 4,
-    fontSize: 20,
-  },
-  errorMessage: {
-    color: 'red'
-  },
-  loginBtn: {
-    paddingTop: 16,
-    alignItems: 'center'
   }
 })
