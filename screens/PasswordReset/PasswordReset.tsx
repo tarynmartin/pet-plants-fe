@@ -3,17 +3,36 @@ import { Text, View, StyleSheet } from 'react-native';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { fetchData } from '../../helpers/helpers';
+import * as SecureStore from 'expo-secure-store';
 
-export default function PasswordReset() {
+export default function PasswordReset({ navigation, setLoggedIn }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string>('')
 
-  const updatePassword = () => {
+  const getID = async () => {
+    let id;
+    try {
+      id = await SecureStore.getItemAsync('uid');
+    } catch (e) {
+      console.error('no_id_update_password', e)
+    }
+    return id
+  };
+
+  const updatePassword = async () => {
     if (password === confirmPassword) {
+      const id = await getID();
       return fetchData('auth/update-user', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-        newPassword: confirmPassword
-      })})
+        newPassword: confirmPassword,
+        id
+      })}).then(data => {
+        if (data.message) {
+          console.error('error resetting password', data)
+        } else {
+          setLoggedIn(true);
+        }
+      })
     } else {
       setError('Your passwords do not match. Please re-enter them')
     }

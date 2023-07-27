@@ -3,12 +3,14 @@ import { NavigationContainer} from '@react-navigation/native'
 import { createNativeStackNavigator} from '@react-navigation/native-stack'
 import * as SecureStore from 'expo-secure-store';
 
-import { fetchData, logoutUser } from './helpers/helpers.tsx';
+import { fetchData, logoutUser, setSecureKeys } from './helpers/helpers.tsx';
 
 import Home from './screens/Home/Home.tsx';
 import Plant from './screens/Plant/Plant.tsx';
 import SignIn from './screens/SignIn/SignIn.tsx';
 import SignUp from './screens/SignUp/SignUp.tsx';
+import VerifyOTP from './screens/VerifyOTP/VerifyOTP.tsx';
+import PasswordReset from './screens/PasswordReset/PasswordReset.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,10 +23,6 @@ export default function App() {
 
   useEffect(() => setError(''), [])
 
-  const setSecureKey = async (key, value) => {
-    await SecureStore.setItemAsync(key, value);
-  }
-
   const loginUser = (email, password) => {
     return fetchData('auth/sign-in', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
       email, password
@@ -34,8 +32,7 @@ export default function App() {
         setError('There was a problem logging you in. Make sure your email and password are correct')
       } else {
         setLoggedIn(true);
-        setSecureKey('refreshToken', data.refresh_token)
-        setSecureKey('accessToken', data.access_token);
+        setSecureKeys(data);
       }
     })
   }
@@ -64,10 +61,8 @@ export default function App() {
         token = await SecureStore.getItemAsync('refreshToken');
       } catch (e) {
         setLoggedIn(false);
-        console.log('no_refresh_token', e);
         console.error('no_refresh_token', e);
       }
-      console.log('token', refreshToken)
       setRefreshToken(token);
     }
     getRefreshToken();
@@ -79,14 +74,6 @@ export default function App() {
       setIsLoading(false)
     })
   }
-
-  // user hits password recovery - show on sign in screen
-  // goes to new page, choose phone or email to get code; enters their info; goes to OTP enter screen
-  // I call sign in with otp - the system sends a code to their email/phone
-  // input for code sent to email/phone
-  // when they enter, send code as token, email/password that was sent to them; choose endpoint based on how they originally got the code (email/phone)
-  // once authenticated, take user to password reset screen; on submission, call updateUser endpoint
-  // take user back to log in screen once password is reset
 
   return (
     <NavigationContainer>
@@ -103,6 +90,8 @@ export default function App() {
           <>
             <Stack.Screen name="Sign In">{props => <SignIn {...props} loginUser={loginUser} error={error} />}</Stack.Screen>
             <Stack.Screen name="Sign Up">{props => <SignUp {...props} signUpUser={signUpUser} error={error} />}</Stack.Screen>
+            <Stack.Screen name="One Time Password">{props => <VerifyOTP {...props} />}</Stack.Screen>
+            <Stack.Screen name="Reset Password">{props => <PasswordReset {...props} setLoggedIn={setLoggedIn}/>}</Stack.Screen>
           </>
         }
       </Stack.Navigator>

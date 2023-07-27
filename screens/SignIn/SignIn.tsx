@@ -15,14 +15,14 @@ export default function SignIn({navigation, loginUser, error}) {
 
   const goToSignUp = () => navigation.navigate('Sign Up')
 
-  const goToPasswordReset = () => navigation.navigate('Password Reset')
+  const goToVerifyOTP = () => navigation.navigate('One Time Password')
 
   return (
     <SafeAreaView style={styles.screen}>
       <Header />
         <Button onPress={goToSignUp} label='Click here to sign up for an account' text='Sign Up' />
         <SignInForm userEmail={userEmail} setUserEmail={setUserEmail} password={password} setPassword={setPassword} error={error} />
-        <Button onPress={goToPasswordReset} label='Click here to reset your password' text='Forgot your password?' />
+        <Button onPress={goToVerifyOTP} label='Click here to reset your password' text='Forgot your password?' />
         <Button onPress={submitLogin} label='Click here to log in' text='Log In' />
     </SafeAreaView>
   );

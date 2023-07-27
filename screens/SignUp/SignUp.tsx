@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Switch, StyleSheet } from 'react-native';
+import { SafeAreaView, Switch, Text, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import SignInForm from '../../components/SignIn/SignInForm';
 import Input from '../../components/Input/Input';

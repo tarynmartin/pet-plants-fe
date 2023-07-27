@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import { fetchData } from '../../helpers/helpers';
+import { fetchData, setSecureKeys } from '../../helpers/helpers';
 
-export default function VerifyOTP({navigation}) {
+export default function VerifyOTP({navigation }) {
   const [ email, setEmail ] = useState<string>('');
   const [ phone, setPhone ] = useState<string>('');
   const [ code, setCode ] = useState<string>('');
@@ -14,7 +14,7 @@ export default function VerifyOTP({navigation}) {
 
   const sendOTP = (type, content) => {
     return fetchData(`auth/${type}-otp-signin`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-      type: content
+      [type]: content
     })}).then(data => {
       if (data.message) {
         // display error message
@@ -28,19 +28,20 @@ export default function VerifyOTP({navigation}) {
 
   const verifyOTP = () => {
     const type = phone?.length > 0 ? 'phone' : 'email';
+
     return fetchData(`auth/verify-${type}-otp`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-      type: type === 'phone' ? phone : email,
-      token: code
+      [type]: type === 'phone' ? phone : email,
+      token: code,
+      type: type === phone ? 'sms' : 'email',
     })}).then(data => {
       if (data.message) {
-        // display error from verification
         console.error('error verifying otp', data);
+      } else {
+        setSecureKeys(data.session, 'id')
+        navigation.navigate('Reset Password')
       }
-      // else, move to next page
     })
   }
-
-  // where does error of user not existing happen?
 
   return (
     <SafeAreaView style={styles.screen}>
