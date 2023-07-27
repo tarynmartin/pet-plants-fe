@@ -23,6 +23,18 @@ export const logoutUser = (setLoggedIn, setError) => {
         setError('');
       }})
     } catch (e) {
-      console.log('error logging out user', e);
+      console.error('error_logging_out_user', e);
     }
   }
+
+const setSecureKey = async (key, value) => {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+export const setSecureKeys = (data, id?: string) => {
+  if (id) {
+    setSecureKey('uid', data.user.id)
+  }
+  setSecureKey('refreshToken', data.refresh_token)
+  setSecureKey('accessToken', data.access_token);
+}

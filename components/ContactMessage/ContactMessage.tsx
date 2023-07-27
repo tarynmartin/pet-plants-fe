@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 const ContactMessage = () => {
   return (
     <View>
-      <Text style={styles.title}>WARNING: This is purely informational. If you think you're pet has ingested a potentially poisonous substance, call (888) 426-4435. A consultation fee may apply</Text>
+      <Text style={styles.title}>If you think your pet has ingested a potentially poisonous substance, call (888) 426-4435. A consultation fee may apply</Text>
     </View>
   )
 }
