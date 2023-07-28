@@ -5,20 +5,42 @@ type ButtonProps = {
   onPress: () => void,
   label: string,
   text: string,
+  buttonStyle?: string,
   disabled?: boolean
 }
 
-export default function Button({ onPress, label, text, disabled = false}: ButtonProps) {
+export default function Button({ onPress, label, text, buttonStyle, disabled = false}: ButtonProps) {
   return (
-    <Pressable onPress={onPress}  accessibilityLabel={label} style={styles.button} disabled={disabled}>
-        <Text>{text}</Text>
+    <Pressable onPress={onPress}  accessibilityLabel={label} style={styles[buttonStyle || 'button']} disabled={disabled}>
+        <Text style={styles.text}>{text}</Text>
     </Pressable>
   )
 }
 
 const styles = StyleSheet.create({
   button: {
-    paddingTop: 16,
-    alignItems: 'center'
+    marginTop: 16,
+    padding: 16,
+    alignItems: 'center',
+    backgroundColor: 'navy',
+    borderRadius: 5,
+  },
+  danger: {
+    marginTop: 16,
+    padding: 16,
+    alignItems: 'center',
+    backgroundColor: 'crimson',
+    borderRadius: 5,
+  },
+  success: {
+    marginTop: 16,
+    padding: 16,
+    alignItems: 'center',
+    backgroundColor: 'darkgreen',
+    borderRadius: 5,
+  },
+  text: {
+    color: 'white',
+    fontWeight: '500',
   }
 })

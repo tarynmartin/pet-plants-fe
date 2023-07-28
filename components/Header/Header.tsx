@@ -13,7 +13,7 @@ const Header = ({ userLogOut }: { userLogOut?: () => void}) => {
 const styles = StyleSheet.create({
   title: {
     paddingTop: 42,
-    paddingBottom: 42,
+    paddingBottom: 20,
     color: 'black',
     textAlign: 'center',
     fontSize: 24,

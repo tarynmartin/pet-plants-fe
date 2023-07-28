@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer} from '@react-navigation/native'
 import { createNativeStackNavigator} from '@react-navigation/native-stack'
 import * as SecureStore from 'expo-secure-store';
+import Toast from 'react-native-toast-message';
 
 import { fetchData, logoutUser, setSecureKeys } from './helpers/helpers.tsx';
 
@@ -29,7 +30,12 @@ export default function App() {
     })})
     .then(data => {
       if (data.message) {
-        setError('There was a problem logging you in. Make sure your email and password are correct')
+        Toast.show({
+          type: 'error',
+          text1: 'There was a problem logging you in.',
+          text2: data.message,
+          visibilityTime: 6000,
+        })
       } else {
         setLoggedIn(true);
         setSecureKeys(data);
@@ -42,12 +48,22 @@ export default function App() {
       email, password, phone, agreement
     })})
     .then(data => {
+      console.log('sign up error', data)
       if (data.message) {
-        setError('There was a problem signing you up. Make sure your password is over 6 characters')
+        setError('Error signing up')
+        Toast.show({
+          type: 'error',
+          text1: 'There was a problem signing you up.',
+          text2: 'Make sure your password is over 6 characters',
+          visibilityTime: 6000,
+        })
       } else {
         setLoggedIn(true);
         setSecureKey('refreshToken', data.refresh_token)
         setSecureKey('accessToken', data.access_token);
+        Toast.show({
+          text1: 'Success! You are now signed up.',
+        })
       }
     })
   }
@@ -81,15 +97,15 @@ export default function App() {
         {refreshToken ? 
           <>
             <Stack.Screen name="Home" options={{headerShown: false}}>
-              {props => <Home {...props} data={plantsData} isLoading={isLoading} logOut={() => logoutUser(setLoggedIn, setError)} />}
+              {props => <Home {...props} data={plantsData} isLoading={isLoading} logOut={() => logoutUser(setLoggedIn)} />}
             </Stack.Screen>
             <Stack.Screen name="Plant">
-              {props => <Plant {...props} logOut={() => logoutUser(setLoggedIn, setError)} />}
+              {props => <Plant {...props} logOut={() => logoutUser(setLoggedIn)} />}
             </Stack.Screen>
           </> :
           <>
             <Stack.Screen name="Sign In">{props => <SignIn {...props} loginUser={loginUser} error={error} />}</Stack.Screen>
-            <Stack.Screen name="Sign Up">{props => <SignUp {...props} signUpUser={signUpUser} error={error} />}</Stack.Screen>
+            <Stack.Screen name="Sign Up">{props => <SignUp {...props} signUpUser={signUpUser} error={error} setError={setError} />}</Stack.Screen>
             <Stack.Screen name="One Time Password">{props => <VerifyOTP {...props} />}</Stack.Screen>
             <Stack.Screen name="Reset Password">{props => <PasswordReset {...props} setLoggedIn={setLoggedIn}/>}</Stack.Screen>
           </>

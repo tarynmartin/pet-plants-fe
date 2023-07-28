@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
+import Toast from 'react-native-toast-message';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -45,13 +46,17 @@ export default function Home({navigation, data, isLoading, logOut}) {
         <ContactMessage />
           <SearchBar clicked={clicked} setClicked={setClicked} searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} />
           {isLoading || loadingState &&
-            <Text>Loading...</Text>
+            <>
+              <Text>Loading...</Text>
+              <ActivityIndicator size='large' />
+            </>
           }
           {(!isLoading || !loadingState) && searchPhrase.length > 0 && !searchData.length &&
             <Text>{`There are no results for ${searchPhrase}`}</Text>
           }
           <List data={searchData} navigation={navigation} />
       </View>
+      <Toast />
     </SafeAreaView>
   );
 }

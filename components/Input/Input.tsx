@@ -5,7 +5,7 @@ export default function Input({ label, value, setValue, placeholder, keyboardTyp
   return (
     <View>
       <Text style={styles.inputLabel}>{label}</Text>
-        <TextInput onChangeText={setValue} value={value} secureTextEntry={label=== 'Password'} style={styles.textInput} placeholder={placeholder || ''} keyboardType={keyboardType || 'default'} />
+        <TextInput onChangeText={setValue} value={value} secureTextEntry={label.includes('Password')} style={styles.textInput} placeholder={placeholder || ''} keyboardType={keyboardType || 'default'} />
     </View>
   )
 }
