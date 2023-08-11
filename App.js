@@ -48,7 +48,6 @@ export default function App() {
       email, password, phone, agreement
     })})
     .then(data => {
-      console.log('sign up error', data)
       if (data.message) {
         setError('Error signing up')
         Toast.show({
@@ -97,10 +96,10 @@ export default function App() {
         {refreshToken ? 
           <>
             <Stack.Screen name="Home" options={{headerShown: false}}>
-              {props => <Home {...props} data={plantsData} isLoading={isLoading} logOut={() => logoutUser(setLoggedIn)} />}
+              {props => <Home {...props} data={plantsData} isLoading={isLoading} setLoggedIn={setLoggedIn} />}
             </Stack.Screen>
             <Stack.Screen name="Plant">
-              {props => <Plant {...props} logOut={() => logoutUser(setLoggedIn)} />}
+              {props => <Plant {...props} setLoggedIn={setLoggedIn} />}
             </Stack.Screen>
           </> :
           <>

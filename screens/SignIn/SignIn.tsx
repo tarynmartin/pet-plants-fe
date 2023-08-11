@@ -7,7 +7,7 @@ import Button from '../../components/Button/Button';
 
 export default function SignIn({navigation, loginUser, error}) {
   const [userEmail, setUserEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('placeholder')
+  const [password, setPassword] = useState<string>('')
   const [loadingState, setLoadingState] = useState<boolean>(false);
 
   const submitLogin = () => {
@@ -30,7 +30,7 @@ export default function SignIn({navigation, loginUser, error}) {
             <Button onPress={goToVerifyOTP} label='Click here to reset your password' text='Forgot your password?' buttonStyle='danger' />
           </View>
           <SignInForm userEmail={userEmail} setUserEmail={setUserEmail} password={password} setPassword={setPassword} error={error} />
-          <Button onPress={submitLogin} label='Click here to log in' text='Log In' />
+          <Button onPress={submitLogin} label='Click here to log in' text='Log In' disabled={!userEmail.length || !password.length} />
         </>
       }
       {loadingState && <ActivityIndicator size='large' />}
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: 'row',
-    gap: 16,
+    gap: 10,
   }
 })

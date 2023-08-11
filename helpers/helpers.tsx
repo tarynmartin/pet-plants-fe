@@ -23,9 +23,9 @@ export const logoutUser = (setLoggedIn) => {
           visibilityTime: 6000,
         })
       } else {
-        setLoggedIn(false);
         SecureStore.deleteItemAsync('refreshToken')
         SecureStore.deleteItemAsync('accessToken');
+        setLoggedIn(false);
       }})
     } catch (e) {
       console.error('error_logging_out_user', e);
