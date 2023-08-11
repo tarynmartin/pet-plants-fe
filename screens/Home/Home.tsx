@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, ActivityIndicator, StyleSheet } from 'react-native';
+import Toast from 'react-native-toast-message';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import List from '../../components/List/List';
 
-export default function Home({navigation, data, isLoading, logOut}) {
+export default function Home({navigation, data, isLoading, setLoggedIn}) {
   const [clicked, setClicked] = useState<boolean>(false);
   const [searchPhrase, setSearchPhrase] = useState<string>('');
   const [searchData, setSearchData] = useState([]);
@@ -40,18 +41,22 @@ export default function Home({navigation, data, isLoading, logOut}) {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <Header userLogOut={logOut}/>
+      <Header setLoggedIn={setLoggedIn} />
       <View style={styles.body}>
         <ContactMessage />
           <SearchBar clicked={clicked} setClicked={setClicked} searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} />
           {isLoading || loadingState &&
-            <Text>Loading...</Text>
+            <>
+              <Text>Loading...</Text>
+              <ActivityIndicator size='large' />
+            </>
           }
           {(!isLoading || !loadingState) && searchPhrase.length > 0 && !searchData.length &&
             <Text>{`There are no results for ${searchPhrase}`}</Text>
           }
           <List data={searchData} navigation={navigation} />
       </View>
+      <Toast />
     </SafeAreaView>
   );
 }

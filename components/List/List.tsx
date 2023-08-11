@@ -17,9 +17,7 @@ const List = ({ navigation, data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
-    marginLeft: 15,
-    marginRight: 20,
+    alignItems: 'center',
   },
 })
 

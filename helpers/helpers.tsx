@@ -1,5 +1,6 @@
 import React from 'react';
 import * as SecureStore from 'expo-secure-store';
+import Toast from 'react-native-toast-message'
 
 export const fetchData = (endpoint, body) => {
   return fetch(`https://pet-plants-be.onrender.com/${endpoint}`, body)
@@ -11,16 +12,20 @@ export const fetchData = (endpoint, body) => {
     }})
 }
 
-export const logoutUser = (setLoggedIn, setError) => {
+export const logoutUser = (setLoggedIn) => {
     try {
       return fetch(`https://pet-plants-be.onrender.com/auth/sign-out`, { method: 'POST', headers: { 'Content-Type': 'application/json' }}).then(response => {
       if (!response.ok) {
-        throw Error(response.statusText)
+        Toast.show({
+          type: 'error',
+          text1: 'There was a problem logging you out.',
+          text2: response.statusText,
+          visibilityTime: 6000,
+        })
       } else {
-        setLoggedIn(false);
         SecureStore.deleteItemAsync('refreshToken')
         SecureStore.deleteItemAsync('accessToken');
-        setError('');
+        setLoggedIn(false);
       }})
     } catch (e) {
       console.error('error_logging_out_user', e);
