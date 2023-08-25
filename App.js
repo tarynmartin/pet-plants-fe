@@ -4,7 +4,7 @@ import { createNativeStackNavigator} from '@react-navigation/native-stack'
 import * as SecureStore from 'expo-secure-store';
 import Toast from 'react-native-toast-message';
 
-import { fetchData, logoutUser, setSecureKeys } from './helpers/helpers.tsx';
+import { fetchData, setSecureKeys } from './helpers/helpers.tsx';
 
 import Home from './screens/Home/Home.tsx';
 import Plant from './screens/Plant/Plant.tsx';
@@ -20,7 +20,11 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [refreshToken, setRefreshToken] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [animal, setAnimal] = useState('');
+  const [isToxic, setIsToxic] = useState(null);
   const [error, setError] = useState('');
+
+  // TODO: figure out how to search a filtered list and how to filter a searched list; what needs to change on the API requests?
 
   useEffect(() => setError(''), [])
 
@@ -90,13 +94,15 @@ export default function App() {
     })
   }
 
+  useEffect(() => console.log('change', animal, isToxic), [animal, isToxic])
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {refreshToken ? 
           <>
             <Stack.Screen name="Home" options={{headerShown: false}}>
-              {props => <Home {...props} data={plantsData} isLoading={isLoading} setLoggedIn={setLoggedIn} />}
+              {props => <Home {...props} data={plantsData} isLoading={isLoading} setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} animal={animal} setAnimal={setAnimal} isToxic={isToxic} setIsToxic={setIsToxic} />}
             </Stack.Screen>
             <Stack.Screen name="Plant">
               {props => <Plant {...props} setLoggedIn={setLoggedIn} />}

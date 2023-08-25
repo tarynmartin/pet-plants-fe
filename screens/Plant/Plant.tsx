@@ -11,6 +11,7 @@ export default function Plant({navigation, route, setLoggedIn}) {
   useEffect(() => {getPlant()}, []);
 
   const getPlant = () => {
+    console.log('plant', `https://pet-plants-be.onrender.com/plants/${route.params.id}`)
     return fetch(`https://pet-plants-be.onrender.com/plants/${route.params.id}`)
     .then(response => {
       if (!response.ok) {
