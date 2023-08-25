@@ -4,13 +4,15 @@ import Toast from 'react-native-toast-message';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import FilterBar from '../../components/FilterBar/FilterBar';
 import List from '../../components/List/List';
 
-export default function Home({navigation, data, isLoading, setLoggedIn}) {
+import { fetchData } from '../../helpers/helpers';
+
+export default function Home({navigation, data, isLoading, setLoggedIn, animal, setAnimal, isToxic, setIsToxic, setIsLoading }) {
   const [clicked, setClicked] = useState<boolean>(false);
   const [searchPhrase, setSearchPhrase] = useState<string>('');
   const [searchData, setSearchData] = useState([]);
-  const [loadingState, setLoadingState] = useState<boolean>(false);
 
   useEffect(() => {
     setSearchData(data)
@@ -18,25 +20,47 @@ export default function Home({navigation, data, isLoading, setLoggedIn}) {
 
   useEffect(() => {
     if (searchPhrase.length) {
-      setLoadingState(true);
+      // setLoadingState(true);
       getSearchResults()
     } else {
       setSearchData(data)
     };
   }, [searchPhrase, data])
 
+  const searchAndFilterResults = () => {
+    fetchData(`plants/${animal + 's'}/${isToxic.toString().toUpperCase()}/${searchPhrase}`).then(plantData => {
+        setIsLoading(false);
+        console.log('should be here', isLoading, )
+        setSearchData(plantData);
+      })
+  }
+
   const getSearchResults = () => {
-    return fetch(`https://pet-plants-be.onrender.com/plants/search/${searchPhrase}`)
-    .then(response => {
-      if (!response.ok) {
-        throw Error(response.statusText)
-      } else {
-        return response.json()
-      }
-    }).then(searchData => {
-      setSearchData(searchData)
-      setLoadingState(false);
-    })
+    if (!animal && isToxic === null) {
+      return fetchData(`/plants/search/${searchPhrase}`)
+      .then(searchData => {
+        setSearchData(searchData)
+      })
+    } else if (animal && isToxic || isToxic === false) {
+      searchAndFilterResults();
+    }
+  }
+
+  const getFilteredPlants = (cleared) => {
+    if (cleared) {
+      setSearchData(data)
+      return
+    }
+
+    if (searchPhrase) {
+      searchAndFilterResults();
+    } else {
+      fetchData(`plants/${animal + 's'}/${isToxic.toString().toUpperCase()}`).then(plantData => {
+        setIsLoading(false);
+        console.log('not here')
+        setSearchData(plantData);
+      })
+    }
   }
 
   return (
@@ -45,13 +69,14 @@ export default function Home({navigation, data, isLoading, setLoggedIn}) {
       <View style={styles.body}>
         <ContactMessage />
           <SearchBar clicked={clicked} setClicked={setClicked} searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} />
-          {isLoading || loadingState &&
+          <FilterBar animal={animal} setAnimal={setAnimal} isToxic={isToxic} setIsToxic={setIsToxic} getFilteredPlants={getFilteredPlants} />
+          {isLoading &&
             <>
               <Text>Loading...</Text>
               <ActivityIndicator size='large' />
             </>
           }
-          {(!isLoading || !loadingState) && searchPhrase.length > 0 && !searchData.length &&
+          {!isLoading && searchPhrase.length > 0 && !searchData.length &&
             <Text>{`There are no results for ${searchPhrase}`}</Text>
           }
           <List data={searchData} navigation={navigation} />
@@ -66,11 +91,11 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   body: {
     flex: 8,
-    width: '100%',
+    // width: '100%',
   },
 })

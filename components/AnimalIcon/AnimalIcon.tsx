@@ -1,9 +1,21 @@
 import React from 'react';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
-const AnimalIcon = ( { animal, toxic }) => {
+type IconProps = {
+  animal: string;
+  toxic?: boolean;
+  color?: string;
+}
+
+const AnimalIcon = ( { animal, toxic, color }: IconProps) => {
+  let iconColor;
+  if (color) {
+    iconColor = color;
+  } else {
+    iconColor = toxic ? "red" : "green"
+  }
   return (
-    <FontAwesome5 name={animal} size={20} color={toxic ? "red" : "green"} />
+    <FontAwesome5 name={animal} size={20} color={iconColor} />
   )
 }
 

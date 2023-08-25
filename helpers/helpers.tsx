@@ -2,7 +2,7 @@ import React from 'react';
 import * as SecureStore from 'expo-secure-store';
 import Toast from 'react-native-toast-message'
 
-export const fetchData = (endpoint, body) => {
+export const fetchData = (endpoint: string, body?: Record<string, any>) => {
   return fetch(`https://pet-plants-be.onrender.com/${endpoint}`, body)
   .then(response => {
     if (!response.ok) {
