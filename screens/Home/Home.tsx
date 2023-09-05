@@ -20,7 +20,10 @@ export default function Home({navigation, data, isLoading, setLoggedIn, animal, 
 
   useEffect(() => {
     if (searchPhrase.length) {
+<<<<<<< HEAD
       // setLoadingState(true);
+=======
+>>>>>>> e91e489 (fix: updated files)
       getSearchResults()
     } else {
       setSearchData(data)
@@ -30,7 +33,10 @@ export default function Home({navigation, data, isLoading, setLoggedIn, animal, 
   const searchAndFilterResults = () => {
     fetchData(`plants/${animal + 's'}/${isToxic.toString().toUpperCase()}/${searchPhrase}`).then(plantData => {
         setIsLoading(false);
+<<<<<<< HEAD
         console.log('should be here', isLoading, )
+=======
+>>>>>>> e91e489 (fix: updated files)
         setSearchData(plantData);
       })
   }
@@ -57,7 +63,10 @@ export default function Home({navigation, data, isLoading, setLoggedIn, animal, 
     } else {
       fetchData(`plants/${animal + 's'}/${isToxic.toString().toUpperCase()}`).then(plantData => {
         setIsLoading(false);
+<<<<<<< HEAD
         console.log('not here')
+=======
+>>>>>>> e91e489 (fix: updated files)
         setSearchData(plantData);
       })
     }
@@ -91,11 +100,17 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#fff',
+<<<<<<< HEAD
     // alignItems: 'center',
     // justifyContent: 'center',
   },
   body: {
     flex: 8,
     // width: '100%',
+=======
+  },
+  body: {
+    flex: 8,
+>>>>>>> e91e489 (fix: updated files)
   },
 })

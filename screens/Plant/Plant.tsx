@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, SafeAreaView, View, StyleSheet, Text, Image } from 'react-native';
+import { ScrollView, SafeAreaView, View, StyleSheet } from 'react-native';
 import Header from '../../components/Header/Header';
 import ContactMessage from '../../components/ContactMessage/ContactMessage';
 import PlantInfo from '../../components/PlantInfo/PlantInfo';
 
+import { fetchData } from '../../helpers/helpers';
 
-export default function Plant({navigation, route, setLoggedIn}) {
+export default function Plant({route, setLoggedIn}) {
   const [plant, setPlant] = useState();
 
   useEffect(() => {getPlant()}, []);
 
   const getPlant = () => {
+<<<<<<< HEAD
     console.log('plant', `https://pet-plants-be.onrender.com/plants/${route.params.id}`)
     return fetch(`https://pet-plants-be.onrender.com/plants/${route.params.id}`)
     .then(response => {
@@ -20,6 +22,10 @@ export default function Plant({navigation, route, setLoggedIn}) {
         return response.json()
       }
     }).then(plantData => {
+=======
+    return fetchData(`plants/${route.params.id}`)
+    .then(plantData => {
+>>>>>>> e91e489 (fix: updated files)
       setPlant(plantData[0])
     })
   }
