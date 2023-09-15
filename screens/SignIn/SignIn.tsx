@@ -5,15 +5,12 @@ import Header from '../../components/Header/Header';
 import SignInForm from '../../components/SignIn/SignInForm';
 import Button from '../../components/Button/Button';
 
-export default function SignIn({navigation, loginUser, error}) {
+export default function SignIn({navigation, loginUser, error, isLoading }) {
   const [userEmail, setUserEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [loadingState, setLoadingState] = useState<boolean>(false);
 
   const submitLogin = () => {
-    setLoadingState(true);
     loginUser(userEmail, password)
-    setLoadingState(false);
   }
 
   const goToSignUp = () => navigation.navigate('Sign Up')
@@ -23,7 +20,7 @@ export default function SignIn({navigation, loginUser, error}) {
   return (
     <SafeAreaView style={styles.screen}>
       <Header />
-      {!loadingState && 
+      {!isLoading && 
         <>
           <View style={styles.buttons}>
             <Button onPress={goToSignUp} label='Click here to sign up for an account' text='Sign Up' buttonStyle='success' />
@@ -33,7 +30,7 @@ export default function SignIn({navigation, loginUser, error}) {
           <Button onPress={submitLogin} label='Click here to log in' text='Log In' disabled={!userEmail.length || !password.length} />
         </>
       }
-      {loadingState && <ActivityIndicator size='large' />}
+      {isLoading && <ActivityIndicator size='large' />}
       <Toast />
     </SafeAreaView>
   );

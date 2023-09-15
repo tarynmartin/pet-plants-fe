@@ -61,7 +61,9 @@ const FilterBar = ({ animal, setAnimal, isToxic, setIsToxic, getFilteredPlants }
               <Pressable onPress={()=> setIsToxic(isToxic ? null : true)} style={isToxic !== null && isToxic ? styles.selected : styles.button}><AntDesign name='closecircleo' size={20} color='red' /></Pressable>
             </View>
             <View style={styles.submitButtons}>
-              <Button onPress={() => getPlants(true)} label='Clear' text='Clear' buttonStyle='clear'/>
+              {animal || isToxic !== null && 
+                <Button onPress={() => getPlants(true)} label='Clear' text='Clear' buttonStyle='clear'/>
+              }
               <Button onPress={() => getPlants(false)} label='Filter List' text='Filter List' disabled={isDisabled} />
             </View>
           </View>

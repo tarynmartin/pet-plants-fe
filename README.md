@@ -1,1 +1,2 @@
 - to open dev tools when running in an emulator, press `m` in the terminal where Expo was started
+- to run, npx expo

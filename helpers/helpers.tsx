@@ -40,6 +40,6 @@ export const setSecureKeys = (data, id?: string) => {
   if (id) {
     setSecureKey('uid', data.user.id)
   }
-  setSecureKey('refreshToken', data.refresh_token)
-  setSecureKey('accessToken', data.access_token);
+  setSecureKey('refreshToken', data.refresh_token || data.session.refresh_token)
+  setSecureKey('accessToken', data.access_token || data.session.access_token);
 }

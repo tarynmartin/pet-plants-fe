@@ -24,11 +24,10 @@ export default function App() {
   const [isToxic, setIsToxic] = useState(null);
   const [error, setError] = useState('');
 
-  // TODO: figure out how to search a filtered list and how to filter a searched list; what needs to change on the API requests?
-
   useEffect(() => setError(''), [])
 
   const loginUser = (email, password) => {
+    setIsLoading(true);
     return fetchData('auth/sign-in', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
       email, password
     })})
@@ -72,7 +71,6 @@ export default function App() {
   }
 
   useEffect(() => {
-    setIsLoading(true);
     getPlants();
     const getRefreshToken = async () => {
       let token;
@@ -80,9 +78,11 @@ export default function App() {
         token = await SecureStore.getItemAsync('refreshToken');
       } catch (e) {
         setLoggedIn(false);
+        setError('There was an error logging you in, please try again.')
         console.error('no_refresh_token', e);
       }
       setRefreshToken(token);
+      setIsLoading(false);
     }
     getRefreshToken();
   }, [loggedIn])
@@ -107,7 +107,7 @@ export default function App() {
             </Stack.Screen>
           </> :
           <>
-            <Stack.Screen name="Sign In">{props => <SignIn {...props} loginUser={loginUser} error={error} />}</Stack.Screen>
+            <Stack.Screen name="Sign In">{props => <SignIn {...props} loginUser={loginUser} error={error} isLoading={isLoading} />}</Stack.Screen>
             <Stack.Screen name="Sign Up">{props => <SignUp {...props} signUpUser={signUpUser} error={error} setError={setError} />}</Stack.Screen>
             <Stack.Screen name="One Time Password">{props => <VerifyOTP {...props} />}</Stack.Screen>
             <Stack.Screen name="Reset Password">{props => <PasswordReset {...props} setLoggedIn={setLoggedIn}/>}</Stack.Screen>
