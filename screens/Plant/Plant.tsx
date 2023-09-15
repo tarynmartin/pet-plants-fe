@@ -12,20 +12,8 @@ export default function Plant({route, setLoggedIn}) {
   useEffect(() => {getPlant()}, []);
 
   const getPlant = () => {
-<<<<<<< HEAD
-    console.log('plant', `https://pet-plants-be.onrender.com/plants/${route.params.id}`)
-    return fetch(`https://pet-plants-be.onrender.com/plants/${route.params.id}`)
-    .then(response => {
-      if (!response.ok) {
-        throw Error(response.statusText)
-      } else {
-        return response.json()
-      }
-    }).then(plantData => {
-=======
     return fetchData(`plants/${route.params.id}`)
     .then(plantData => {
->>>>>>> e91e489 (fix: updated files)
       setPlant(plantData[0])
     })
   }
