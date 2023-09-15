@@ -94,8 +94,6 @@ export default function App() {
     })
   }
 
-  useEffect(() => console.log('change', animal, isToxic), [animal, isToxic])
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
